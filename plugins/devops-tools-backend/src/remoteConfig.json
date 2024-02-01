@@ -1,0 +1,55 @@
+{
+    "namingStandard": {
+        "include": "((^(AW|NU|AP|AUD|ASN|CLD|USR|OPS)[0-9]{7}_|^(EUC)[0-9]{5}_|^IS([A-Z0-9]{2,4})[0-9]*$)(?!.*(?:lfs|LFS)).*)",
+        "exclude": "^Template_.*|^Dojo_.*|^POC_.*|^Deprecated_.*"
+    },
+    "gitFlowBranches": {
+        "GitFlow": {
+            "branches": [
+                {
+                    "name": "master",
+                    "isDefault": true
+                },
+                {
+                    "name": "release",
+                    "isDefault": false
+                },
+                {
+                    "name": "develop",
+                    "isDefault": false
+                }
+            ]
+        },
+        "TrunkBased": {
+            "pattern": "^.*_MR$",
+            "branches": [
+                {
+                    "name": "trunk",
+                    "isDefault": true
+                }
+            ]
+        },
+        "DBSQL": {
+            "pattern": "^.*_SQL$",
+            "branches": [
+                {
+                    "name": "current",
+                    "isDefault": true
+                },
+                {
+                    "name": "trunk",
+                    "isDefault": false
+                }
+            ]
+        },
+        "DBDDM": {
+            "pattern": "^.*_DDM$",
+            "branches": [
+                {
+                    "name": "master",
+                    "isDefault": true
+                }
+            ]
+        }
+    }
+}
