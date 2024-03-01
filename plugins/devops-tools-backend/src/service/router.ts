@@ -25,6 +25,7 @@ export async function createRouter(
   router.post('/repository/create', async (request, response) => {
     try {
       const data = request.body;
+      console.log(data);
       const repositoryUserCase = new repositoryUseCaseImpl(data.client);
       const repo = await repositoryUserCase.createRepository(data.repositoryName, data.gitWorkflow);
       response.set('Content-Type', 'application/json');

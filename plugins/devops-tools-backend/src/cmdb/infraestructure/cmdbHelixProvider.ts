@@ -6,9 +6,9 @@ export class CmdbHelixProvider implements CmdbProvider<Instance> {
     constructor() { }
 
     public async getElement(name: string): Promise<Instance> {
-        const url: string = 'URL';
-        const username: string = 'user';
-        const password: string = 'password';
+        const url: string = 'https://bancolombia-qa-restapi.onbmc.com/api';
+        const username: string = 'vsts';
+        const password: string = '3@!*qJUg8GZ6';
         const token: string = await this.getToken(url, username, password);
         const qualification: string = `'ClassId' = "BMC_APPLICATION" AND 'Name' LIKE "%${name}%"`;
         const urlElement: string = `${url}/cmdb/v1.0/instances/BMC.ASSET/BMC.CORE/BMC_BaseElement?num_matches=true&qualification=${qualification}`;

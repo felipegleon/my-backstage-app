@@ -59,9 +59,6 @@ export class repositoryUseCaseImpl implements repositoryUseCase {
 
     }
 
-
-
-
     private async createMainBranches(repository: any, gitWorkflow: string): Promise<void> {
         try {
             const repoConfigs: RepositoryConfigs = await this.repositoryProvider.getRepositoryConfigs();

@@ -1,1 +1,1 @@
-export * from './service/router';
+export { devOpsToolsPlugin as default } from './plugin';

@@ -7,8 +7,8 @@ import { IGitApi } from "azure-devops-node-api/GitApi";
 
 function getApi(): WebApi {
     try {
-        const serverUrl: string = 'serverUrl';
-        const token: string = 'token';
+        const serverUrl: string = 'https://dev.azure.com/grupobancolombia';
+        const token: string = 'nlcls6nokfsu4d3g3fxgrljokmljkekltrv3bk4p242ellmjvjiq';
         const authHandler = getPersonalAccessTokenHandler(token);
         const option = {
             socketTimeout: 2147483647,
@@ -31,7 +31,7 @@ export class AzureClient {
 
     private constructor() {
         this.webApi = getApi();
-        this.projectId = 'projectId';
+        this.projectId = 'b267af7c-3233-4ad1-97b3-91083943100d';
     }
 
     public static getInstance(): AzureClient {

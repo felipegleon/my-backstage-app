@@ -20,6 +20,7 @@ import { discoveryApiRef, useApi } from '@backstage/core-plugin-api';
 
 export const MyComponent = () => {
   const [open, setOpen] = useState(false);
+  const [client, setClient] = useState('');
   const [repositoryName, setRepositoryName] = useState('');
   const [gitFlowWorflow, setGitFlowWorflow] = useState('');
 
@@ -37,12 +38,14 @@ export const MyComponent = () => {
     event.preventDefault();
     const discoveryApi = useApi(discoveryApiRef);
     const baseUrl = discoveryApi.getBaseUrl('devops-tools');
-    const response = await fetch(`${await baseUrl}/repository`, {
+    console.log(await baseUrl);
+    const response = await fetch(`${await baseUrl}/repository/create`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
+        client,
         repositoryName,
         gitFlowWorflow,
       }),
@@ -113,6 +116,14 @@ export const MyComponent = () => {
 
 
           <FormGroup onSubmit={handleSubmit}>
+
+          <TextField
+              label="Client"
+              value={client}
+              required={true}
+              onChange={(event) => setClient(event.target.value)}
+            />
+            <br />
             <TextField
               label="Repository Name"
               value={repositoryName}
@@ -129,6 +140,9 @@ export const MyComponent = () => {
           </FormGroup>
 
         </DialogContent>
+
+
+
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
           <Button type="submit">Submit</Button>
