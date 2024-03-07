@@ -3,26 +3,17 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogContentText,
   DialogActions,
-  Grid,
-  CardContent,
-  CardActions,
-  Card,
   Button,
-  FormGroup
 } from '@material-ui/core';
-import {
-  Content
-} from '@backstage/core-components';
 import TextField from '@material-ui/core/TextField';
-import { discoveryApiRef, useApi } from '@backstage/core-plugin-api';
 
 export const MyComponent = () => {
   const [open, setOpen] = useState(false);
   const [client, setClient] = useState('');
   const [repositoryName, setRepositoryName] = useState('');
-  const [gitFlowWorflow, setGitFlowWorflow] = useState('');
+  const [gitFlowWorkflow, setGitFlowWorkflow] = useState('');
+
 
   const handleOpen = () => {
     setOpen(true);
@@ -30,125 +21,74 @@ export const MyComponent = () => {
 
   const handleClose = () => {
     setOpen(false);
-    setGitFlowWorflow('');
+    setClient('');
+    setGitFlowWorkflow('');
     setRepositoryName('');
   };
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
-    const discoveryApi = useApi(discoveryApiRef);
-    const baseUrl = discoveryApi.getBaseUrl('devops-tools');
-    console.log(await baseUrl);
-    const response = await fetch(`${await baseUrl}/repository/create`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        client,
-        repositoryName,
-        gitFlowWorflow,
-      }),
-    });
+    const data = {
+      client: client,
+      repositoryName: repositoryName,
+      gitFlowWorkflow: gitFlowWorkflow,
+    };
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+    try {
+      const response = await fetch('http://localhost:7007/api/proxy/devops-tools/repository/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.json();
+      console.log(result);
+    } catch (error) {
+      console.error('An error occurred while making the API request:', error);
     }
-
-    const data = await response.json();
-    // Haz algo con los datos...
-
     handleClose();
-  }
+  };
 
   return (
-    <Content>
-      <Grid container direction='row'>
-        <Grid item xs={6}>
-          <Card>
-            <CardContent>
-              <h1>Create New Repository</h1>
-            </CardContent>
-            <CardActions>
-              <Button type="button" onClick={handleOpen}>
-                Create
-              </Button>
-            </CardActions>
-          </Card>
-        </Grid>
-        <Grid item xs={6}>
-          <Card>
-            <CardContent>
-              <h1>Rename Repository</h1>
-            </CardContent>
-            <CardActions>
-              <Button type="button" onClick={handleOpen}>
-                Rename
-              </Button>
-            </CardActions>
-          </Card>
-        </Grid>
-        <Grid item xs={6}>
-          <Card>
-            <CardContent>
-              <h1>Delete Branches</h1>
-            </CardContent>
-            <CardActions>
-              <Button type="button" onClick={handleOpen}>
-                Delete
-              </Button>
-            </CardActions>
-          </Card>
-        </Grid>
-      </Grid>
-
-      <Dialog
-        open={open}
-        onClose={handleClose}
-      >
-
+    <div>
+      <Button variant="outlined" color="primary" onClick={handleOpen}>
+        Open Form
+      </Button>
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>Create New Repository</DialogTitle>
         <DialogContent>
-          <DialogTitle>Create New Repository</DialogTitle>
-          <DialogContentText>
-            Para crear un nuevo repositorio, por favor diligencie el siguiente formulario
-          </DialogContentText>
-
-
-
-          <FormGroup onSubmit={handleSubmit}>
-
-          <TextField
+          <form onSubmit={handleSubmit}>
+            <TextField
               label="Client"
               value={client}
-              required={true}
+              required
               onChange={(event) => setClient(event.target.value)}
             />
-            <br />
             <TextField
               label="Repository Name"
               value={repositoryName}
-              required={true}
+              required
               onChange={(event) => setRepositoryName(event.target.value)}
             />
-            <br />
             <TextField
               label="Git Flow Workflow"
-              required={true}
-              value={gitFlowWorflow}
-              onChange={(event) => setGitFlowWorflow(event.target.value)}
+              value={gitFlowWorkflow}
+              required
+              onChange={(event) => setGitFlowWorkflow(event.target.value)}
             />
-          </FormGroup>
-
+            <DialogActions>
+              <Button onClick={handleClose}>Cancel</Button>
+              <Button type="submit">Submit</Button>
+            </DialogActions>
+          </form>
         </DialogContent>
-
-
-
-        <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button type="submit">Submit</Button>
-        </DialogActions>
       </Dialog>
-
-    </Content>
+    </div>
   );
-}
+};

@@ -47,14 +47,27 @@ integrations:
     #   apiBaseUrl: https://ghe.example.net/api/v3
     #   token: ${GHE_TOKEN}
 
-proxy:
-  ### Example for how to add a proxy endpoint for the frontend.
-  ### A typical reason to do this is to handle HTTPS and CORS for internal services.
-  # endpoints:
-  #   '/test':
-  #     target: 'https://example.com'
-  #     changeOrigin: true
+proxy:  
 
+  endpoints:
+
+    /devops-tools:
+      target:  http://localhost:7008/api/devops-tools
+      changeOrigin: true
+      allowedMethods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE']
+
+    /catalog':
+      target: http://localhost:7008/api/catalog
+      changeOrigin: true
+      pathRewrite:
+      allowedMethods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE']
+
+    '/search':
+      target:  http://localhost:7008/api/search
+      changeOrigin: true  
+      allowedMethods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE']
+
+      
 # Reference documentation http://backstage.io/docs/features/techdocs/configuration
 # Note: After experimenting with basic setup, use CI/CD to generate docs
 # and an external cloud storage when deploying TechDocs for production use-case.
