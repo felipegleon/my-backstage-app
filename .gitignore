@@ -46,8 +46,8 @@ site
 # Local configuration files
 *.local.yaml
 app-config-app.yaml
-app-config-backend-a.yaml
-app-config-backend-b.yaml
+app-config-backend-*.yaml
+
 # Sensitive credentials
 *-credentials.yaml
 
