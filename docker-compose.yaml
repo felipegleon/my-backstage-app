@@ -1,0 +1,56 @@
+version: '3.9'
+
+services:
+
+  postgresql:
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    ports:
+      - '5432:5432'
+    volumes:
+      - backstage_data:/var/lib/postgresql/data
+
+  app:
+    image: backstage-front:latest
+    ports:
+      - '3000:80'
+    environment:
+      - BACKEND_A_BASE_URL:${BACKEND_A_BASE_URL}
+    links:
+      - backend-a
+
+  backend-a:
+    image: backstage-backend-a:latest
+    ports:
+      - '7007:7007'
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_HOST=&{POSTGRES_HOST}
+      - POSTGRES_PORT=${POSTGRES_PORT}
+      - APP_BASE_URL=${APP_BASE_URL}
+      - BACKEND_B_BASE_URL=${BACKEND_B_BASE_URL}
+      - GITHUB_TOKEN=${GITHUB_TOKEN}
+      - AUTH_GITHUB_CLIENT_ID=${AUTH_GITHUB_CLIENT_ID}
+      - AUTH_GITHUB_CLIENT_SECRET=${AUTH_GITHUB_CLIENT_SECRET}
+    links:
+      - postgresql
+      - backend-b
+
+  backend-b:
+    image: backstage-backend-b:latest
+    ports:
+      - '7008:7008'
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_HOST=&{POSTGRES_HOST}
+      - POSTGRES_PORT=${POSTGRES_PORT}
+      - APP_BASE_URL=${APP_BASE_URL}
+    links:
+      - postgresql
+      
+volumes:
+  backstage_data:

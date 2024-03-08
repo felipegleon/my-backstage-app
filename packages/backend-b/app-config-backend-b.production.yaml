@@ -1,3 +1,7 @@
+app:
+  title: Scaffolded Backstage App
+  baseUrl: ${APP_BASE_URL}
+  
 organization:
   name: My Company
   
@@ -18,7 +22,7 @@ backend:
     # Content-Security-Policy directives follow the Helmet format: https://helmetjs.github.io/#reference
     # Default Helmet Content-Security-Policy values can be removed by setting the key to false
   cors:
-    origin: http://localhost:3000
+    origin: ${APP_BASE_URL}
     methods: [GET, HEAD, PATCH, POST, PUT, DELETE]
     credentials: true
   # This is for local development only, it is not recommended to use this in production
@@ -26,8 +30,8 @@ backend:
   database:
     client: pg
     connection:
-      host: 127.0.0.1
-      port: 5432
-      user: postgres
-      password: backstage
+      host: ${POSTGRES_HOST}
+      port: ${POSTGRES_PORT}
+      user: ${POSTGRES_USER}
+      password: ${POSTGRES_PASSWORD}
   # workingDirectory: /tmp # Use this to configure a working directory for the scaffolder, defaults to the OS temp-dir

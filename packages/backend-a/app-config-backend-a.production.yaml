@@ -1,6 +1,6 @@
 app:
   title: Scaffolded Backstage App
-  baseUrl: http://localhost:3000
+  baseUrl: ${APP_BASE_URL}
 
 organization:
   name: My Company
@@ -18,11 +18,11 @@ backend:
     # Uncomment the following host directive to bind to specific interfaces
     # host: 127.0.0.1
   csp:
-    connect-src: ["'self'", 'http:', 'https:']
+    connect-src: ["'self'", "http:", "https:"]
     # Content-Security-Policy directives follow the Helmet format: https://helmetjs.github.io/#reference
     # Default Helmet Content-Security-Policy values can be removed by setting the key to false
   cors:
-    origin: http://localhost:3000
+    origin: ${APP_BASE_URL}
     methods: [GET, HEAD, PATCH, POST, PUT, DELETE]
     credentials: true
   # This is for local development only, it is not recommended to use this in production
@@ -30,10 +30,10 @@ backend:
   database:
     client: pg
     connection:
-      host: 127.0.0.1
-      port: 5432
-      user: postgres
-      password: backstage
+      host: ${POSTGRES_HOST}
+      port: ${POSTGRES_PORT}
+      user: ${POSTGRES_USER}
+      password: ${POSTGRES_PASSWORD}
   # workingDirectory: /tmp # Use this to configure a working directory for the scaffolder, defaults to the OS temp-dir
 
 integrations:
@@ -47,37 +47,34 @@ integrations:
     #   apiBaseUrl: https://ghe.example.net/api/v3
     #   token: ${GHE_TOKEN}
 
-proxy:  
-
+proxy:
   endpoints:
-
     /devops-tools:
-      target:  http://localhost:7008/api/devops-tools
+      target: ${BACKEND_B_BASE_URL}/api/devops-tools
       changeOrigin: true
-      allowedMethods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE']
+      allowedMethods: ["GET", "POST", "PATCH", "PUT", "DELETE"]
 
     /catalog':
-      target: http://localhost:7008/api/catalog
+      target: ${BACKEND_B_BASE_URL}/api/catalog
       changeOrigin: true
       pathRewrite:
-      allowedMethods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE']
+      allowedMethods: ["GET", "POST", "PATCH", "PUT", "DELETE"]
 
-    '/search':
-      target:  http://localhost:7008/api/search
-      changeOrigin: true  
-      allowedMethods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE']
+    "/search":
+      target: ${BACKEND_B_BASE_URL}/api/search
+      changeOrigin: true
+      allowedMethods: ["GET", "POST", "PATCH", "PUT", "DELETE"]
 
-      
 # Reference documentation http://backstage.io/docs/features/techdocs/configuration
 # Note: After experimenting with basic setup, use CI/CD to generate docs
 # and an external cloud storage when deploying TechDocs for production use-case.
 # https://backstage.io/docs/features/techdocs/how-to-guides#how-to-migrate-from-techdocs-basic-to-recommended-deployment-approach
 techdocs:
-  builder: 'local' # Alternatives - 'external'
+  builder: "local" # Alternatives - 'external'
   generator:
-    runIn: 'docker' # Alternatives - 'local'
+    runIn: "local" # Alternatives - 'local'
   publisher:
-    type: 'local' # Alternatives - 'googleGcs' or 'awsS3'. Read documentation for using alternatives.
+    type: "local" # Alternatives - 'googleGcs' or 'awsS3'. Read documentation for using alternatives.
 
 auth:
   # see https://backstage.io/docs/auth/ to learn about auth providers
@@ -85,8 +82,8 @@ auth:
   providers:
     github:
       development:
-        clientId: 0e42f7ae680451c8b1d8
-        clientSecret: 181224b41d3d5cb8573f4dba7644d017d83fede9
+        clientId: ${AUTH_GITHUB_CLIENT_ID}
+        clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
         scope: read:user user:email
         signIn:
           resolvers:

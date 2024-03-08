@@ -33,7 +33,9 @@ node_modules/
 
 # Build output
 dist
+dist/*
 dist-types
+dist-types/*
 
 # Temporary change files created by Vim
 *.swp
@@ -43,7 +45,9 @@ site
 
 # Local configuration files
 *.local.yaml
-
+app-config-app.yaml
+app-config-backend-a.yaml
+app-config-backend-b.yaml
 # Sensitive credentials
 *-credentials.yaml
 

@@ -13,7 +13,7 @@
     "lint": "backstage-cli package lint",
     "test": "backstage-cli package test",
     "clean": "backstage-cli package clean",
-    "build-image": "docker build ../.. -f Dockerfile --tag backstage"
+    "build-image": "docker build Dockerfile --tag backstage-backend-a:latest"
   },
   "dependencies": {
     "@backstage/backend-common": "^0.20.1",
@@ -23,7 +23,6 @@
     "@backstage/catalog-client": "^1.5.2",
     "@backstage/catalog-model": "^1.4.3",
     "@backstage/config": "^1.1.1",
-    "@backstage/plugin-app-backend": "^0.3.57",
     "@backstage/plugin-auth-backend": "^0.20.3",
     "@backstage/plugin-auth-node": "^0.4.3",
     "@backstage/plugin-catalog-backend": "^1.16.1",
