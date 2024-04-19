@@ -12,6 +12,10 @@ backend:
   # auth:
   #   keys:
   #     - secret: ${BACKEND_SECRET}
+  auth:
+    keys:
+      - secret: ${BACKEND_SECRET}
+
   baseUrl: http://localhost:7007
   listen:
     port: 7007
@@ -30,8 +34,8 @@ backend:
   database:
     client: pg
     connection:
-      host: ${POSTGRES_HOST}
-      port: ${POSTGRES_PORT}
+      host: ${POSTGRES_SERVICE_HOST}
+      port: ${POSTGRES_SERVICE_PORT}
       user: ${POSTGRES_USER}
       password: ${POSTGRES_PASSWORD}
   # workingDirectory: /tmp # Use this to configure a working directory for the scaffolder, defaults to the OS temp-dir
@@ -57,7 +61,6 @@ proxy:
     /catalog':
       target: ${BACKEND_B_BASE_URL}/api/catalog
       changeOrigin: true
-      pathRewrite:
       allowedMethods: ["GET", "POST", "PATCH", "PUT", "DELETE"]
 
     "/search":
@@ -91,7 +94,7 @@ auth:
             - resolver: emailLocalPartMatchingUserEntityName
             - resolver: usernameMatchingUserEntityName
 
-scaffolder:
+#scaffolder:
   # see https://backstage.io/docs/features/software-templates/configuration for software template options
 
 catalog:
