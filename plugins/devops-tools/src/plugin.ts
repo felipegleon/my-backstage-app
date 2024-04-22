@@ -1,9 +1,21 @@
-import { createPlugin, createRoutableExtension } from '@backstage/core-plugin-api';
+import { createApiFactory, createPlugin, createRoutableExtension, discoveryApiRef } from '@backstage/core-plugin-api';
 
 import { rootRouteRef } from './routes';
+import { DevopsToolsApiRef } from './api/apiRef';
+import { DevopsToolsClient } from './api/DevOpsToolsClient';
 
 export const devopsToolsPlugin = createPlugin({
   id: 'devops-tools',
+  /*apis: [
+    createApiFactory({
+      api: DevopsToolsApiRef,
+      deps: {
+        discoveryApi: discoveryApiRef,
+      },
+      factory: ({ discoveryApi }) =>
+        new DevopsToolsClient({ discoveryApi }),
+    }),
+  ],*/
   routes: {
     root: rootRouteRef,
   },

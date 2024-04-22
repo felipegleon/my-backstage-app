@@ -7,7 +7,9 @@ import {
   AnyApiFactory,
   configApiRef,
   createApiFactory,
+  discoveryApiRef,
 } from '@backstage/core-plugin-api';
+import { CustomDiscoveryApi } from './customDiscoveryApi';
 
 export const apis: AnyApiFactory[] = [
   createApiFactory({
@@ -15,5 +17,12 @@ export const apis: AnyApiFactory[] = [
     deps: { configApi: configApiRef },
     factory: ({ configApi }) => ScmIntegrationsApi.fromConfig(configApi),
   }),
-  ScmAuth.createDefaultApiFactory(),
+
+  createApiFactory({
+    api: discoveryApiRef,
+    deps: { configApi: configApiRef },
+    factory: ({ configApi }) => CustomDiscoveryApi.fromConfig(configApi),
+  }),
+
+  ScmAuth.createDefaultApiFactory()
 ];
